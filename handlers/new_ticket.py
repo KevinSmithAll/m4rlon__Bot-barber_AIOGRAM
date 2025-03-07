@@ -7,10 +7,28 @@ from aiogram.fsm.state import default_state
 from functions.date import *
 from database.database import Database
 from functions.logging import Logger
-
+from aiogram.filters import BaseFilter
+from functions.time import get_avaliable_time
 
 Logs = Logger()
 new_ticket_router = Router()
+
+
+class Data_check(BaseFilter):
+    async def __call__(self, message: Message, state: FSMContext):
+        db_sql = Database()
+        temp_data = await state.get_data()
+        data = temp_data['date']
+        normal_time = get_avaliable_time(date=data)
+        not_avaliable_tickets = db_sql.check_ticket(date=data)
+        avaliable_time = tuple(
+            set(not_avaliable_tickets).symmetric_difference(set(normal_time)))
+        Logs.info(
+            message=f'Пользователь {message.chat.id} решил стать самым умным')
+        if message.text not in avaliable_time:
+            await message.answer(text='Пожалуйста, выберете только из предложенных вариантов',
+                                 reply_markup=await valiable_times(date=data))
+        return message.text in avaliable_time
 
 
 @new_ticket_router.callback_query(F.data == "create_ticket")
@@ -75,7 +93,7 @@ async def date(message: Message, state: FSMContext):
     await state.set_state(New_ticket.time)
 
 
-@new_ticket_router.message(New_ticket.time)
+@new_ticket_router.message(New_ticket.time, Data_check())
 async def time(message: Message, state: FSMContext):
     await state.update_data(time=message.text)
     data = await state.get_data()
