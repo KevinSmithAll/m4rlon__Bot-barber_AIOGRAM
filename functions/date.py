@@ -23,6 +23,6 @@ def is_past(date_string: str) -> bool:
                 return True
 
         except ValueError as e:
-            return False, f"Произошла ошибка при обработке даты: {e}"
+            return False
     else:
         return False

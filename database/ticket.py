@@ -1,4 +1,8 @@
 import sqlite3
+from functions.logging import Logger
+
+
+Logs = Logger()
 
 
 class TicketMethods():
@@ -16,9 +20,10 @@ class TicketMethods():
             self.cursor.execute(self.TICKET_QUERY,
                                 (name, phone, date, time, tg_id))
             self.conn.commit()
-            print('Ticket created')
+            Logs.info(
+                message=f'Пользователь {name} записался на {date}, {time}. Его телефон {phone}')
         except sqlite3.Error as e:
-            print(e)
+            Logs.error(message=e)
 
     def check_ticket(self, date) -> list[str]:
         self.cursor.execute(self.CHECK_TICKET_QUERY, (date,))

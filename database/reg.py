@@ -1,4 +1,8 @@
 import sqlite3
+from functions.logging import Logger
+
+
+Logs = Logger()
 
 
 class RegistrateMethods:
@@ -8,8 +12,8 @@ class RegistrateMethods:
         try:
             self.cursor.execute(self.REG_QUERY, (tg_id,))
             self.conn.commit()
-            print(f"Пользователь '{tg_id}'успешно добавлен")
+            Logs.info(
+                message=f"Пользователь '{tg_id}'успешно добавлен в БД пользователей")
             return True
         except sqlite3.IntegrityError:
-            print(f"Пользователь '{tg_id}' уже существует")
             return False

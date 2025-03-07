@@ -1,4 +1,8 @@
 import sqlite3
+from functions.logging import Logger
+
+
+Logs = Logger()
 
 
 class ConnectionMethods:
@@ -8,10 +12,10 @@ class ConnectionMethods:
         """Метод для подключения к базе данных"""
         self.conn = sqlite3.connect(database=self.DB_PATH)
         self.cursor = self.conn.cursor()
-        print("Подключение установлено")
+        Logs.info(message="Подключение установлено")
 
     def close_connection(self):
         """Метод для закрытия соединения с базой данных"""
         if self.conn:
             self.conn.close()
-            print("Соединение закрыто")
+            Logs.info(message="Соединение закрыто")

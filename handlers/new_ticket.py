@@ -6,12 +6,17 @@ from keyboards.keyboards import cancel_kb, valiable_times
 from aiogram.fsm.state import default_state
 from functions.date import *
 from database.database import Database
+from functions.logging import Logger
 
+
+Logs = Logger()
 new_ticket_router = Router()
 
 
 @new_ticket_router.callback_query(F.data == "create_ticket")
 async def create_ticket(callback: CallbackQuery, state: FSMContext):
+    Logs.info(
+        message=f'Пользователь {callback.message.chat.id} нажал на кнопку "Создать заявку" в меню')
     await callback.message.edit_reply_markup()
     await callback.message.answer("Введите Вашу фамилию",
                                   reply_markup=cancel_kb)
