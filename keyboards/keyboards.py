@@ -1,4 +1,8 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
+import database as db
+from aiogram.utils.keyboard import ReplyKeyboardBuilder
+from functions.time import get_avaliable_time
+
 
 user_menu = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Записаться на стрижку',
@@ -11,14 +15,14 @@ cancel_kb = ReplyKeyboardMarkup(
     keyboard=[[KeyboardButton(text='Отмена')]], resize_keyboard=True)
 
 
-async def get_valiable_times():
-    free_time: list[str] = []
-    pass
-"""
-Основной смысл будет состоять в следующем:
-При вызове определенной функции для получения свободных времен
-мы проходимся по всем временам с заданным для дня недели шагом
-делаем селекты из базы данных, проверяем на наличие записи на i-e время
-Если на i-e время селект пустой, то добавляем это время в список свободных
-Возвращаем список свободных времени
-"""
+async def valiable_times(date: str):
+    keyboard = ReplyKeyboardBuilder()
+    db_sql = db.Database()
+    normal_time = get_avaliable_time(date=date)
+    not_avaliable_tickets = db_sql.check_ticket(date=date)
+    avaliable_time = tuple(
+        set(not_avaliable_tickets).symmetric_difference(set(normal_time)))
+
+    for time in avaliable_time:
+        keyboard.add(KeyboardButton(text=time))
+    return keyboard.adjust(4).as_markup()  # resize_keyboard=True)

@@ -20,6 +20,10 @@ class TicketMethods():
         except sqlite3.Error as e:
             print(e)
 
-    def check_ticket(self, date):
+    def check_ticket(self, date) -> list[str]:
         self.cursor.execute(self.CHECK_TICKET_QUERY, (date,))
-        return self.cursor.fetchall()
+        all_tickets = self.cursor.fetchall()
+        not_available_times = []
+        for ticket in all_tickets:
+            not_available_times.append(ticket[0])
+        return not_available_times

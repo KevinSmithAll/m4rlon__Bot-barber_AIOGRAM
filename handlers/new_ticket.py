@@ -2,16 +2,18 @@ from aiogram import Router, F
 from aiogram.types import CallbackQuery, ReplyKeyboardRemove, Message
 from aiogram.fsm.context import FSMContext
 from states.states import New_ticket
-from keyboards.keyboards import cancel_kb
+from keyboards.keyboards import cancel_kb, valiable_times
 from aiogram.fsm.state import default_state
 from functions.date import *
+
 
 new_ticket_router = Router()
 
 
 @new_ticket_router.callback_query(F.data == "create_ticket")
 async def create_ticket(callback: CallbackQuery, state: FSMContext):
-    await callback.message.answer("Создание записи\nВведите Вашу фамилию",
+    await callback.message.edit_reply_markup()
+    await callback.message.answer("Введите Вашу фамилию",
                                   reply_markup=cancel_kb)
     await state.set_state(New_ticket.surname)
 
@@ -61,7 +63,7 @@ async def date(message: Message, state: FSMContext):
     await state.update_data(date=message.text)
     await state.set_state(New_ticket.time)
     await message.answer("Выберете время для записи из предложенных вариантов.",
-                         reply_markup=cancel_kb)
+                         reply_markup=await valiable_times(date=message.text))
 
 
 @new_ticket_router.message(New_ticket.time)
