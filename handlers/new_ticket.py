@@ -5,7 +5,7 @@ from states.states import New_ticket
 from keyboards.keyboards import cancel_kb, valiable_times
 from aiogram.fsm.state import default_state
 from functions.date import *
-
+from aiogram.filters import Filter
 
 new_ticket_router = Router()
 
@@ -70,5 +70,6 @@ async def date(message: Message, state: FSMContext):
 async def time(message: Message, state: FSMContext):
     await state.update_data(time=message.text)
     data = await state.get_data()
-    await message.answer(f"Успех! Ваша запись:\nФамилия: {data['surname']}\nТелефон: {data['number']}\nДата: {data['date']}\nВремя: {data['time']}")
+    await message.answer(f"Успех! Ваша запись:\nФамилия: {data['surname']}\nТелефон: {data['number']}\nДата: {data['date']}\nВремя: {data['time']}",
+                         reply_markup=ReplyKeyboardRemove())
     await state.clear()
