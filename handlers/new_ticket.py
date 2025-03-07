@@ -60,7 +60,7 @@ async def date(message: Message, state: FSMContext):
         return
     await state.update_data(date=message.text)
     await state.set_state(New_ticket.time)
-    await message.answer("Введите время записи через точку (например 12.30)",
+    await message.answer("Выберете время для записи из предложенных вариантов.",
                          reply_markup=cancel_kb)
 
 
