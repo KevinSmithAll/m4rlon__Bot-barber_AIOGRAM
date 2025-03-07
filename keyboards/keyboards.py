@@ -25,6 +25,7 @@ async def valiable_times(date: str):
     if avaliable_time:
         for time in avaliable_time:
             keyboard.add(KeyboardButton(text=time))
-        return keyboard.adjust(4).as_markup()  # resize_keyboard=True)
+        keyboard.add(KeyboardButton(text='Отмена'))
+        return keyboard.adjust(4).as_markup(resize_keyboard=True)
     else:
         raise Exception('Нет доступных времён')
