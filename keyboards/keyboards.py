@@ -22,7 +22,9 @@ async def valiable_times(date: str):
     not_avaliable_tickets = db_sql.check_ticket(date=date)
     avaliable_time = tuple(
         set(not_avaliable_tickets).symmetric_difference(set(normal_time)))
-
-    for time in avaliable_time:
-        keyboard.add(KeyboardButton(text=time))
-    return keyboard.adjust(4).as_markup()  # resize_keyboard=True)
+    if avaliable_time:
+        for time in avaliable_time:
+            keyboard.add(KeyboardButton(text=time))
+        return keyboard.adjust(4).as_markup()  # resize_keyboard=True)
+    else:
+        raise Exception('Нет доступных времён')

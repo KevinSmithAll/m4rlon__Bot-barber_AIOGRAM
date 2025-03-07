@@ -60,10 +60,14 @@ async def date(message: Message, state: FSMContext):
     if not is_past(message.text):
         await message.answer('Вы не можете записаться на прошедший день, попробуйте ещё раз')
         return
+    try:
+        await message.answer("Выберете время для записи из предложенных вариантов.",
+                             reply_markup=await valiable_times(date=message.text))
+    except Exception:
+        await message.answer("На выбранную дату нет свободных мест, выберете другую дату\n(Введите в том же формате)")
+        return
     await state.update_data(date=message.text)
     await state.set_state(New_ticket.time)
-    await message.answer("Выберете время для записи из предложенных вариантов.",
-                         reply_markup=await valiable_times(date=message.text))
 
 
 @new_ticket_router.message(New_ticket.time)
