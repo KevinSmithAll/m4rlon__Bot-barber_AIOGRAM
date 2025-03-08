@@ -14,6 +14,9 @@ user_menu = InlineKeyboardMarkup(inline_keyboard=[
 cancel_kb = ReplyKeyboardMarkup(
     keyboard=[[KeyboardButton(text='Отмена')]], resize_keyboard=True)
 
+delete_ticket_kb = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
+    text='Удалить запись', callback_data='delete_ticket')]])
+
 
 async def valiable_times(date: str):
     keyboard = ReplyKeyboardBuilder()
