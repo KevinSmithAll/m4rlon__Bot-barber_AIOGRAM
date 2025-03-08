@@ -10,6 +10,7 @@ class TicketMethods():
     TICKET_QUERY = """INSERT INTO tickets (user_id, name, phone, date, time) SELECT u.user_id, (?), (?), (?), (?) FROM users u WHERE u.tg_id = (?)"""
     CHECK_TICKET_QUERY = """SELECT t.time FROM tickets t WHERE t.date = (?)"""
     CHECK_MY_TICKET_QUERY = """SELECT t.date, t.time FROM tickets t WHERE t.user_id = (SELECT u.user_id FROM users u WHERE u.tg_id = (?))"""
+    DELETE_TICKET_QUERY = """DELETE FROM tickets WHERE date = (?) AND time = (?)"""
 
     def create_ticket(self,
                       tg_id: int,
@@ -37,3 +38,10 @@ class TicketMethods():
     def check_my_ticket(self, tg_id: int):
         self.cursor.execute(self.CHECK_MY_TICKET_QUERY, (tg_id,))
         return self.cursor.fetchall()
+
+    def delete_ticket(self, date: str, time: str):
+        if self.cursor.execute("""SELECT * FROM tickets WHERE date = (?) AND time = (?)""", (date, time)).fetchone():
+            self.cursor.execute(self.DELETE_TICKET_QUERY, (date, time))
+            self.conn.commit()
+        else:
+            raise sqlite3.Error('Нет записей на эту дату и время')

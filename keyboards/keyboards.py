@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 import database as db
-from aiogram.utils.keyboard import ReplyKeyboardBuilder
+from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
 from functions.time import get_avaliable_time
 
 
@@ -16,6 +16,13 @@ cancel_kb = ReplyKeyboardMarkup(
 
 delete_ticket_kb = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
     text='Удалить запись', callback_data='delete_ticket')]])
+
+
+async def view_delete_kb(date: str, time: str):
+    keyboard = InlineKeyboardBuilder()
+    keyboard.row(InlineKeyboardButton(text=f'Удалить запись {date}, {time}',
+                 callback_data=f'delete_{date}_{time}'))
+    return keyboard.as_markup()
 
 
 async def valiable_times(date: str):

@@ -10,6 +10,7 @@ async def main():
     dp.include_router(router=handlers.start_router)
     dp.include_router(router=handlers.new_ticket_router)
     dp.include_router(router=handlers.check_ticket_router)
+    dp.include_router(router=handlers.delete_ticket_router)
     await dp.start_polling(bot)
 
 if __name__ == '__main__':

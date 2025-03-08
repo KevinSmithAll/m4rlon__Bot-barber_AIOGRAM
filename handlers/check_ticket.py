@@ -11,6 +11,7 @@ check_ticket_router = Router()
 
 @check_ticket_router.callback_query(F.data == "my_tickets")
 async def my_tickets(callback: CallbackQuery):
+    await callback.message.edit_reply_markup()
     db_sql = Database()
     my_tickets = db_sql.check_my_ticket(tg_id=callback.from_user.id)
     Logs.info(
@@ -21,6 +22,7 @@ async def my_tickets(callback: CallbackQuery):
                 f"Дата записи на стрижку: {ticket[0]}\n" \
                 f"Время записи на стрижку: {ticket[1]}\n"
             await callback.message.answer(text=msg,
-                                          reply_markup=kb.delete_ticket_kb)
+                                          reply_markup=await kb.view_delete_kb(date=ticket[0],
+                                                                               time=ticket[1]))
     else:
         await callback.message.answer(text="У вас нет записей")
