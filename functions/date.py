@@ -1,5 +1,5 @@
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def is_valid_date(date_string: str) -> bool:
@@ -26,3 +26,22 @@ def is_past(date_string: str) -> bool:
             return False
     else:
         return False
+
+
+def get_seven_dates() -> list[str]:
+    today = datetime.now()
+    dates = []
+
+    for i in range(7):
+        # Форматируем день и месяц с ведущими нулями
+        date_str = f"{today.day:02d}.{today.month:02d}.{today.year}"
+        dates.append(date_str)
+        today += timedelta(days=1)
+
+    return dates
+
+
+def get_date_today() -> str:
+    today = datetime.now()
+    date_str = f"{today.day:02d}.{today.month:02d}.{today.year}"
+    return date_str

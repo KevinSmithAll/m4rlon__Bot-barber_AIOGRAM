@@ -18,6 +18,20 @@ delete_ticket_kb = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
     text='Удалить запись', callback_data='delete_ticket')]])
 
 
+admin_menu = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Вывод записей на сегодня',
+                          callback_data='admin_today')],
+    [InlineKeyboardButton(text='Вывод записей на 7 дней',
+                          callback_data='admin_7_days')],
+    [InlineKeyboardButton(text='Вывод записи на определенный день',
+                          callback_data='admin_any_day')],
+    [InlineKeyboardButton(text='Отметить выполненную запись',
+                          callback_data='admin_marker')],
+    [InlineKeyboardButton(text='Экспортировать записи в Excel',
+                          callback_data='admin_export')],
+])
+
+
 async def view_delete_kb(date: str, time: str):
     keyboard = InlineKeyboardBuilder()
     keyboard.row(InlineKeyboardButton(text=f'Удалить запись {date}, {time}',
