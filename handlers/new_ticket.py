@@ -23,11 +23,11 @@ class Data_check(BaseFilter):
         not_avaliable_tickets = db_sql.check_ticket(date=data)
         avaliable_time = tuple(
             set(not_avaliable_tickets).symmetric_difference(set(normal_time)))
-        Logs.info(
-            message=f'Пользователь {message.chat.id} решил стать самым умным')
         if message.text not in avaliable_time:
             await message.answer(text='Пожалуйста, выберете только из предложенных вариантов',
                                  reply_markup=await valiable_times(date=data))
+            Logs.info(
+                message=f'Пользователь {message.chat.id} решил стать самым умным')
         return message.text in avaliable_time
 
 
