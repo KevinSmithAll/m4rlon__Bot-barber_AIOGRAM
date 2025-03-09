@@ -13,7 +13,7 @@ def get_dayweek(date: str) -> str:
 
 
 def get_avaliable_time(date: str) -> tuple:
-    dayweeks = ('Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday')
+    dayweeks = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')
     weekends = ('Saturday', 'Sunday')
 
     dayweek_times = ('19.00', '20.00', '21.00', '22.00')

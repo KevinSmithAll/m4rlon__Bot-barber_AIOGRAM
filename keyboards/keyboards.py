@@ -2,7 +2,9 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeybo
 import database as db
 from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
 from functions.time import get_avaliable_time
+from functions.logging import Logger
 
+Logs = Logger()
 
 user_menu = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Записаться на стрижку',
@@ -43,9 +45,12 @@ async def valiable_times(date: str):
     keyboard = ReplyKeyboardBuilder()
     db_sql = db.Database()
     normal_time = get_avaliable_time(date=date)
+    Logs.debug(f'Normal_time: {normal_time}')
     not_avaliable_tickets = db_sql.check_ticket(date=date)
+    Logs.debug(message=f'not avaliable time {not_avaliable_tickets}')
     avaliable_time = tuple(
         set(not_avaliable_tickets).symmetric_difference(set(normal_time)))
+    Logs.debug(message=f'avaliable time {avaliable_time}')
     if avaliable_time:
         for time in avaliable_time:
             keyboard.add(KeyboardButton(text=time))

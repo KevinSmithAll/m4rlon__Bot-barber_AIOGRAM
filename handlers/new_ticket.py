@@ -88,6 +88,7 @@ async def date(message: Message, state: FSMContext):
                              reply_markup=await valiable_times(date=message.text))
     except Exception:
         await message.answer("На выбранную дату нет свободных мест, выберете другую дату\n(Введите в том же формате)")
+        Logs.warning(message=Exception)
         return
     await state.update_data(date=message.text)
     await state.set_state(New_ticket.time)
@@ -105,6 +106,7 @@ async def time(message: Message, state: FSMContext):
         date=data['date'],
         time=data['time']
     )
+    db_sql.close_connection()
     await message.answer(f"Успех! Ваша запись:\nФамилия: {data['surname']}\nТелефон: {data['number']}\nДата: {data['date']}\nВремя: {data['time']}",
                          reply_markup=ReplyKeyboardRemove())
     await state.clear()
