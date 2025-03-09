@@ -45,12 +45,9 @@ async def valiable_times(date: str):
     keyboard = ReplyKeyboardBuilder()
     db_sql = db.Database()
     normal_time = get_avaliable_time(date=date)
-    Logs.debug(f'Normal_time: {normal_time}')
     not_avaliable_tickets = db_sql.check_ticket(date=date)
-    Logs.debug(message=f'not avaliable time {not_avaliable_tickets}')
     avaliable_time = tuple(
         set(not_avaliable_tickets).symmetric_difference(set(normal_time)))
-    Logs.debug(message=f'avaliable time {avaliable_time}')
     if avaliable_time:
         for time in avaliable_time:
             keyboard.add(KeyboardButton(text=time))
