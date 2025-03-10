@@ -30,9 +30,13 @@ admin_menu = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Вывод записи на определенный день',
                           callback_data='admin_any_day')],
     [InlineKeyboardButton(text='Отметить выполненную запись',
-                          callback_data='admin_marker')],
+                          callback_data='admin_marker_ready')],
+    [InlineKeyboardButton(text='Отметить НЕ выполненную запись',
+                          callback_data='admin_marker_not_ready')],
     [InlineKeyboardButton(text='Экспортировать записи в Excel',
                           callback_data='admin_export')],
+    [InlineKeyboardButton(text='Моя статистика',
+                          callback_data='admin_stats')],
 ])
 
 

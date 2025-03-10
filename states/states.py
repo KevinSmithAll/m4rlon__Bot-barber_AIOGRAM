@@ -6,3 +6,14 @@ class New_ticket(StatesGroup):
     number = State()
     date = State()
     time = State()
+
+
+class Marker(StatesGroup):
+    date = State()
+    time = State()
+
+
+class Marker_not_Ready(StatesGroup):
+    date = State()
+    time = State()
+    comment = State()
