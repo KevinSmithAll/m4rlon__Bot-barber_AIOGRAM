@@ -3,6 +3,8 @@ import database as db
 from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
 from functions.time import get_avaliable_time
 from functions.logging import Logger
+from functions.date import get_seven_dates
+
 
 Logs = Logger()
 
@@ -55,3 +57,12 @@ async def valiable_times(date: str):
         return keyboard.adjust(4).as_markup(resize_keyboard=True)
     else:
         raise Exception('Нет доступных времён')
+
+
+async def get_week_tickets_kb():
+    week = get_seven_dates()
+    keyboard = InlineKeyboardBuilder()
+    for day in week:
+        keyboard.row(InlineKeyboardButton(
+            text=day, callback_data=f'Дата_{day}'))
+    return keyboard.as_markup()
