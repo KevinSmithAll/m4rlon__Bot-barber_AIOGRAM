@@ -7,7 +7,7 @@ import datetime
 
 
 async def main():
-    bot = Bot(token="7990808992:AAFPFFG_3HriAwol8hGkUpUr9lbBytg_Y0U")
+    bot = Bot(token="")
     dp = Dispatcher(FSMStrategy=FSMStrategy.USER_IN_CHAT)
 
     schedular = AsyncIOScheduler(timezone='Europe/Moscow')
